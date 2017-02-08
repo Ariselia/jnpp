@@ -3,9 +3,14 @@ package jnpp
 import "github.com/xiaokangwang/jnpp/jnpputil"
 
 func (jn *Jnpp) merge() error {
-	return jnpputil.FindIf("#!Merge", jn.jn, func(fi []string, i interface{}) error {
+	//Single Merge
+	err := jnpputil.FindIf("#!Merge", jn.jn, func(fi []string, i interface{}) error {
 		return jn.mergeat(fi, i)
 	}, nil)
+	if err != nil {
+		return err
+	}
+	return nil
 }
 
 func (jn *Jnpp) mergeat(fi []string, i interface{}) error {
