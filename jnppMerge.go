@@ -1,10 +1,6 @@
 package jnpp
 
-import (
-	"path/filepath"
-
-	"github.com/xiaokangwang/jnpp/jnpputil"
-)
+import "github.com/xiaokangwang/jnpp/jnpputil"
 
 func (jn *Jnpp) merge() error {
 	return jnpputil.FindIf("#!Merge", jn.jn, func(fi []string, i interface{}) error {
@@ -17,10 +13,7 @@ func (jn *Jnpp) mergeat(fi []string, i interface{}) error {
 	//nextname := strings.Split(currentname, "|")[1]
 	merging := jn.jn.GetPath(fi...).MustString()
 
-	incJn := new(Jnpp)
-	incJn.basedir = filepath.Dir(jn.basedir + "/" + merging)
-	incJn.environment = jn.environment
-	err := incJn.Parse(merging)
+	incJn, err := jn.joincalc(merging)
 	if err != nil {
 		return err
 	}
