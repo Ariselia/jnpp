@@ -1,28 +1,34 @@
 package jnpp
 
 import (
+	"path/filepath"
 	"strings"
 
 	"github.com/xiaokangwang/jnpp/jnpputil"
 )
 
 func (jn *Jnpp) include() {
-	jnpputil.FindIf("#!include", jn.jn, func(fi []string, i interface{}) error {
+	err := jnpputil.FindIf("#!include", jn.jn, func(fi []string, i interface{}) error {
 		currentname := fi[len(fi)-1]
 		nextname := strings.Split(currentname, "|")[1]
 		merging := jn.jn.GetPath(fi...).MustString(nextname + ".json")
 
 		incJn := new(Jnpp)
-		incJn.basedir = jn.basedir
+		incJn.basedir = filepath.Dir(jn.basedir + "/" + merging)
 		incJn.environment = jn.environment
+		//spew.Dump(merging, incJn)
 		err := incJn.Parse(merging)
 		if err != nil {
 			return err
 		}
 
-		jn.jn.GetPath(fi[:len(fi)-2]...).Set(nextname, incJn.jn.MustMap())
+		cw := jn.jn.GetPath(fi[:len(fi)-1]...)
+		cw.Set(nextname, incJn.jn.MustMap())
 
-		jn.jn.GetPath(fi[:len(fi)-2]...).Del(currentname)
+		cw.Del(currentname)
 		return nil
 	}, nil)
+	if err != nil {
+		panic(err)
+	}
 }

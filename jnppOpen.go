@@ -4,6 +4,7 @@ import (
 	"errors"
 	"io/ioutil"
 	"os"
+	"strings"
 )
 
 /*OpenJnpp jnpp file*/
@@ -17,7 +18,7 @@ func OpenJnpp(filename string, environment *map[string]string) (*Jnpp, error) {
 	if err != nil {
 		return nil, err
 	}
-	if string(data) != "v1" {
+	if !strings.HasPrefix(string(data), "v1.") {
 		return nil, errors.New("Version Incorrect")
 	}
 	dirn := filename + ".d"

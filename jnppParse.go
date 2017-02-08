@@ -2,6 +2,7 @@ package jnpp
 
 import (
 	"os"
+	"path/filepath"
 
 	"github.com/bitly/go-simplejson"
 )
@@ -9,7 +10,8 @@ import (
 /*Parse Parse jspp file*/
 func (jn *Jnpp) Parse(script string) error {
 	dirn := jn.basedir
-	findex, err := os.Open(dirn + "/" + script)
+	fileloc := dirn + "/" + script
+	findex, err := os.Open(fileloc)
 	if err != nil {
 		return err
 	}
@@ -17,6 +19,13 @@ func (jn *Jnpp) Parse(script string) error {
 	if err != nil {
 		return err
 	}
+
+	l, e := filepath.Abs(fileloc)
+	if e != nil {
+		return e
+	}
+
+	jn.basedir = filepath.Dir(l)
 
 	jn.readenv()
 	jn.exec()
