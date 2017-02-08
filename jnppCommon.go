@@ -6,7 +6,8 @@ func (jn *Jnpp) joincalc(merging string) (*Jnpp, error) {
 	incJn := new(Jnpp)
 	incJn.basedir = filepath.Dir(jn.basedir + "/" + merging)
 	incJn.environment = jn.environment
-	err := incJn.Parse(merging)
+	_, fn := filepath.Split(merging)
+	err := incJn.Parse(fn)
 	if err != nil {
 		return nil, err
 	}
