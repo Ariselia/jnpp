@@ -1,3 +1,5 @@
 package jnpp
 
-func (jn *Jnpp) readenv() {}
+func (jn *Jnpp) readenv() error {
+	return nil
+}

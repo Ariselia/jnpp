@@ -27,11 +27,27 @@ func (jn *Jnpp) Parse(script string) error {
 
 	jn.basedir = filepath.Dir(l)
 
-	jn.readenv()
-	jn.exec()
-	jn.merge()
-	jn.include()
-	jn.render()
+	//var err error
+	err = jn.readenv()
+	if err != nil {
+		return err
+	}
+	err = jn.exec()
+	if err != nil {
+		return err
+	}
+	err = jn.merge()
+	if err != nil {
+		return err
+	}
+	err = jn.include()
+	if err != nil {
+		return err
+	}
+	err = jn.render()
+	if err != nil {
+		return err
+	}
 
 	return nil
 }

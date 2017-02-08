@@ -1,5 +1,5 @@
 package jnpp
 
-func (jn *Jnpp) render() {
-
+func (jn *Jnpp) render() error {
+	return nil
 }
