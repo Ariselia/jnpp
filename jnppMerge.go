@@ -6,8 +6,8 @@ import (
 	"github.com/xiaokangwang/jnpp/jnpputil"
 )
 
-func (jn *Jnpp) merge() {
-	jnpputil.FindIf("#!Merge", jn.jn, func(fi []string, i interface{}) error {
+func (jn *Jnpp) merge() error {
+	return jnpputil.FindIf("#!Merge", jn.jn, func(fi []string, i interface{}) error {
 		return jn.mergeat(fi, i)
 	}, nil)
 }

@@ -7,13 +7,10 @@ import (
 	"github.com/xiaokangwang/jnpp/jnpputil"
 )
 
-func (jn *Jnpp) include() {
-	err := jnpputil.FindIf("#!Include", jn.jn, func(fi []string, i interface{}) error {
+func (jn *Jnpp) include() error {
+	return jnpputil.FindIf("#!Include", jn.jn, func(fi []string, i interface{}) error {
 		return jn.includeat(fi, i)
 	}, nil)
-	if err != nil {
-		panic(err)
-	}
 }
 func (jn *Jnpp) includeat(fi []string, i interface{}) error {
 	currentname := fi[len(fi)-1]
